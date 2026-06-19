@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Космические примеры</title>
+    <style>
+        /* Базовые сбросы */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e; /* Запасной цвет, если картинка не загрузится */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Главный контейнер с фоном */
+        .scene {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 7.5; /* Сохраняем пропорции картинки */
+            
+            /* Подключаем фоновую картинку */
+            background-image: url('background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        /* Карточка с текстом (Стеклянный эффект) */
+        .glass-card {
+            position: absolute;
+            top: 38%; /* Чуть выше середины, как на макете */
+            left: 50%;
+            transform: translate(-105%, -50%); /* Смещаем влево от центра */
+            
+            width: 45%;
+            max-width: 500px;
+            aspect-ratio: 16 / 10;
+            
+            /* Glassmorphism (матовое стекло) */
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .glass-card h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0b0b2a;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .glass-card .content {
+            flex-grow: 1;
+            /* Место для интерактивных примеров */
+        }
+
+        /* Контейнер круга с персонажем (вырезается из фона) */
+        .character-circle {
+            position: absolute;
+            bottom: 12%;
+            right: 13%;
+            
+            width: 22%;
+            max-width: 250px;
+            aspect-ratio: 1 / 1;
+            
+            background-color: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            z-index: 10;
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Внутренние декоративные кольца вокруг аватара */
+        .character-circle::before {
+            content: '';
+            position: absolute;
+            inset: -15px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: -1;
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+        .character-circle::after {
+            content: '';
+            position: absolute;
+            inset: -30px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            z-index: -2;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.05); opacity: 0.1; }
+        }
+
+        /* Место для настоящей картинки персонажа */
+        .character-circle img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+        }
+
+        /* --- Адаптивность для экранов поменьше --- */
+        @media (max-width: 992px) {
+            .glass-card {
+                width: 55%;
+                transform: translate(-80%, -50%);
+                padding: 20px;
+            }
+            .character-circle {
+                width: 28%;
+                right: 8%;
+                bottom: 10%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .glass-card {
+                width: 75%;
+                top: 35%;
+                transform: translate(-50%, -50%);
+                left: 50%; /* На мобилках центрируем */
+                padding: 20px;
+            }
+            .glass-card h1 {
+                font-size: 1.5rem;
+            }
+            .character-circle {
+                width: 35%;
+                right: 5%;
+                bottom: 5%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scene">
+        <!-- Прозрачная карточка с текстом -->
+        <div class="glass-card">
+            <h1>Примеры:</h1>
+            <div class="content">
+                <!-- Здесь будут ваши кнопки/слайдеры -->
+            </div>
+        </div>
+
+        <!-- Круг с персонажем -->
+        <div class="character-circle">
+            <!-- Если у вас есть png персонажа с прозрачным фоном, вставьте его сюда -->
+            <img src="person.png" alt="Персонаж">
+        </div>
+    </div>
+
+</body>
+</html>
