@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Интерактивные примеры</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #1a1e2c;
+      font-family: 'Montserrat', sans-serif;
+      padding: 20px;
+    }
+
+    .wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1400px;
+      min-height: 700px;
+      border-radius: 48px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('https://iimg.su/i/u552Xi') center/cover no-repeat;
+      filter: brightness(0.9);
+      z-index: 0;
+    }
+
+    .glass-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 700px;
+      padding: 50px 70px;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      border-radius: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    }
+
+    .title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 2.8rem;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      text-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .slider-area {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .text-wrapper {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      min-height: 380px;
+      border-radius: 24px;
+    }
+
+    .slide-track {
+      display: flex;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    .slide-item {
+      flex: 0 0 100%;
+      padding: 12px 4px 12px 0;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: #ffffff;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+      white-space: pre-line;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      letter-spacing: 0.01em;
+    }
+
+    .slide-item strong {
+      font-weight: 600;
+      color: #ffecbb;
+    }
+
+    .slide-item ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .slide-item li {
+      margin-bottom: 6px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .slide-item li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #fcd34d;
+      font-weight: 600;
+    }
+
+    .slide-item .logic {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      font-style: italic;
+      color: #e2e8f0;
+    }
+
+    .nav-btn {
+      flex-shrink: 0;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+      user-select: none;
+    }
+
+    .nav-btn:hover:not(.disabled) {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      border-color: rgba(255, 255, 255, 0.7);
+    }
+
+    .nav-btn:active:not(.disabled) {
+      transform: scale(0.94);
+    }
+
+    .nav-btn.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+      filter: grayscale(0.4);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-btn.prev {
+      margin-right: 6px;
+    }
+
+    .nav-btn.next {
+      margin-left: 6px;
+    }
+
+    @media (max-width: 820px) {
+      .glass-container {
+        padding: 30px 24px;
+        min-height: 600px;
+      }
+      .slider-area {
+        gap: 12px;
+      }
+      .nav-btn {
+        width: 56px;
+        height: 56px;
+        font-size: 26px;
+      }
+      .slide-item {
+        font-size: 20px;
+        min-height: 320px;
+        padding: 6px 2px;
+      }
+      .title {
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .glass-container {
+        padding: 24px 16px;
+        min-height: 540px;
+        border-radius: 32px;
+      }
+      .slider-area {
+        flex-direction: column;
+        gap: 18px;
+      }
+      .nav-btn {
+        width: 52px;
+        height: 52px;
+        font-size: 22px;
+      }
+      .nav-btn.prev {
+        margin-right: 0;
+      }
+      .nav-btn.next {
+        margin-left: 0;
+      }
+      .slide-item {
+        font-size: 17px;
+        min-height: 280px;
+      }
+      .title {
+        font-size: 2rem;
+        text-align: center;
+      }
+      .wrapper {
+        border-radius: 32px;
+      }
+      .wrapper::before {
+        border-radius: 32px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="glass-container">
+    <div class="title">Примеры</div>
+
+    <div class="slider-area">
+      <button class="nav-btn prev disabled" id="prevBtn" aria-label="Предыдущий пример">‹</button>
+
+      <div class="text-wrapper">
+        <div class="slide-track" id="slideTrack">
+          <div class="slide-item" data-index="0">
+            <strong>Отдел продаж:</strong>
+            <ul>
+              <li>Количество клиентов (потенциальных и действующих)</li>
+              <li>Среднее количество сделок или заявок на одного продавца</li>
+              <li>Объём продаж (в штуках, деньгах или клиентах)</li>
+              <li>Количество встреч, звонков или писем, необходимых для заключения сделки</li>
+            </ul>
+            <div class="logic">Логика: чем больше клиентов и операций, тем выше нагрузка на менеджеров по продажам.</div>
+          </div>
+          <div class="slide-item" data-index="1">
+            <strong>Служба поддержки / контакт-центр:</strong>
+            <ul>
+              <li>Количество входящих обращений (звонков, писем, чатов)</li>
+              <li>Среднее время обработки запроса</li>
+              <li>Уровень сервиса (SLA, требуемая скорость ответа)</li>
+              <li>Процент обращений, требующих эскалации</li>
+            </ul>
+            <div class="logic">Логика: рост обращений напрямую увеличивает потребность в операторах.</div>
+          </div>
+          <div class="slide-item" data-index="2">
+            <strong>HR-отдел (кадры и подбор):</strong>
+            <ul>
+              <li>Количество сотрудников или вакансий</li>
+              <li>Средняя скорость закрытия вакансии</li>
+              <li>Планируемый прирост/текучесть персонала</li>
+              <li>Объём кадровых изменений (переводы, отпуска, командировки)</li>
+            </ul>
+            <div class="logic">Логика: чем активнее кадровые процессы, тем больше нагрузка на HR-специалистов.</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="nav-btn next" id="nextBtn" aria-label="Следующий пример">›</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const track = document.getElementById('slideTrack');
+    const slides = track.querySelectorAll('.slide-item');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateButtons() {
+      // prevBtn disabled если на первом слайде
+      if (currentIndex === 0) {
+        prevBtn.classList.add('disabled');
+      } else {
+        prevBtn.classList.remove('disabled');
+      }
+
+      // nextBtn disabled если на последнем слайде
+      if (currentIndex === totalSlides - 1) {
+        nextBtn.classList.add('disabled');
+      } else {
+        nextBtn.classList.remove('disabled');
+      }
+    }
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentIndex = index;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      updateButtons();
+    }
+
+    function goPrev() {
+      if (currentIndex > 0) {
+        updateSlide(currentIndex - 1);
+      }
+    }
+
+    function goNext() {
+      if (currentIndex < totalSlides - 1) {
+        updateSlide(currentIndex + 1);
+      }
+    }
+
+    prevBtn.addEventListener('click', goPrev);
+    nextBtn.addEventListener('click', goNext);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        goPrev();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        goNext();
+      }
+    });
+
+    // Начальное состояние: первый слайд, prev неактивна, next активна
+    updateSlide(0);
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      }, 100);
+    });
+  })();
+</script>
+</body>
+</html>
